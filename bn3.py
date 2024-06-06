@@ -1,4 +1,3 @@
-
 def cria_mapa():
     mapa = []
     for i in range(10):
@@ -10,17 +9,6 @@ def cria_mapa():
 
 m1 = cria_mapa()
 m2 = cria_mapa()
-
-
-# legenda_cima = '   '
-# for i in range(20):
-#     if i in [10]:
-#         legenda_cima += '      '
-#     if i > 9:
-#         legenda_cima += f'  {letters[i-10]}  '
-#     else: 
-#         legenda_cima += f'  {letters[i-10]}  '
-# print(legenda_cima)
 
 letters = ['A','B','C','D','E','F','D','H','I','J']
 numbers = ['1','2','3','4','5','6','7','8','9','10']
