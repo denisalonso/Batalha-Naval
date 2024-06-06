@@ -55,11 +55,11 @@ def color_map(m):
         for j in range(len(mapa[i])):
             if mapa[i][j] == ' ':
                 mapa[i][j] = '   '
-            elif mapa[i][j] == 'N':
+            elif mapa[i][j] == 'navio':
                 mapa[i][j] = '\u001b[32m▇▇▇\u001b[0m' 
-            elif mapa[i][j] == 'A':
+            elif mapa[i][j] == 'water':
                 mapa[i][j] = '\u001b[34m▇▇▇\u001b[0m'
-            elif mapa[i][j] == 'X':
+            elif mapa[i][j] == 'booom':
                 mapa[i][j] = '\u001b[31m▇▇▇\u001b[0m'
     return mapa
 
