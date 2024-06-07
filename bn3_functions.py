@@ -85,11 +85,13 @@ def aloca_cpu(m,b):
     mapa_cpu = m
     escolhido = False
     while not escolhido:
-        l = rd.randint(0,len(mapa_cpu-1))
-        c = rd.randint(0,len(mapa_cpu-1))
-        o = rd.choice('v','h')
+        l = rd.randint(0,len(mapa_cpu)-1)
+        c = rd.choice(['a','b','c','d','e','f','g','h','i','j'])
+        o = rd.choice(['v','h'])
         if posição_suporta(mapa_cpu,b,l,c,o):
             escolhido = True
+    letras = {'a':1,'b':2,'c':3,'d':4,'e':5,'f':6,'g':7,'h':8,'i':9,'j':10}
+    c = letras[c]-1
     for i in range(b):
         if o in ['v']:
             mapa_cpu[l+i][c] = 'navio'
@@ -100,7 +102,7 @@ def aloca_cpu(m,b):
 def aloca_plr(m,b,l,c,o):
     mapa_plr = m
     letras = {'a':1,'b':2,'c':3,'d':4,'e':5,'f':6,'g':7,'h':8,'i':9,'j':10}
-    letra = letras[c]-2
+    letra = letras[c]-1
     for i in range(b):
         if o in ['v']:
             mapa_plr[l+i][letra] = 'navio'
