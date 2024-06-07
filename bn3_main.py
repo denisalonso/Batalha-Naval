@@ -50,16 +50,16 @@ def main():
     for i in range(len(blocos_cpu)):
         map_cpu = aloca_cpu(map_cpu,blocos_cpu[i])
             
-            # parte II - PLR
+        # parte II - PLR
     for navio in frota_plr:
-        print(f'Você está alocando {navio}, {frota_plr[navio]:3d} unidades.')
+        print(f'Você está alocando {navio}, {frota_plr[navio]} unidades.')
         for i in range(frota_plr[navio]):
             alocado = False
             while not alocado:
                 coord = input('Escolha a coordenada em que quer alocar: ')
                 while coord not in coords_validas:
                     coord = input('Por favor digite uma coordenada válida: ')
-                ori = input('Escolha uma orientação ')
+                ori = input('Escolha uma orientação: ')
                 while ori.lower() not in ['h','v']:
                     ori = input('Por favor digite orientação válida [v/h]: ')
                 l = int(coord[1:])-1
@@ -69,10 +69,13 @@ def main():
                     mapa_plr = aloca_plr(map_plr,gab[navio],l,c,ori)
                 else:
                     print('Posição inválida! por favor escolha outra posição.')
-            show_map(map_cpu,map_plr)
+            show_map(color_cpu(map_cpu),color_plr(map_plr))
     
-    for i in range(len(map_plr)):
-        print(map_plr[i])
+
+
+
+    
+
 
 
 main()
