@@ -23,6 +23,7 @@ def main():
                       'j1','j2','j3','j4','j5','j6','j7','j8','j9','j10',]
     jogadas_plr = []
     jogadas_cpu = []
+    # jogadas_cpu_estado = {}
 
     # criação de mapas
     map_plr = cria_mapa()
@@ -107,5 +108,6 @@ def main():
         print(f'{rodada_plr[2]}')
         t.sleep(1)
         show_map(color_cpu(map_cpu),color_plr(map_plr))        
+        
 
 main()
