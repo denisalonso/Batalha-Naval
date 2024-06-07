@@ -49,19 +49,29 @@ def show_map(m1,m2):
                     line += m2[i-1][h-13]
         print(line)
 
-def color_map(m):
-    mapa = m
+def color_cpu(m):
+    m2 = cria_mapa()
     for i in range(len(m)):
-        for j in range(len(mapa[i])):
-            if mapa[i][j] == ' ':
-                mapa[i][j] = '   '
-            elif mapa[i][j] == 'navio':
-                mapa[i][j] = '\u001b[32m▇▇▇\u001b[0m' 
-            elif mapa[i][j] == 'water':
-                mapa[i][j] = '\u001b[34m▇▇▇\u001b[0m'
-            elif mapa[i][j] == 'booom':
-                mapa[i][j] = '\u001b[31m▇▇▇\u001b[0m'
-    return mapa
+        for j in range(len(m[i])):
+            if m[i][j] == 'navio':
+                m2[i][j] = '     '
+            elif m[i][j] == 'water':
+                m2[i][j] = '\u001b[34m▇▇▇▇▇\u001b[0m'
+            elif m[i][j] == 'booom':
+                m2[i][j] = '\u001b[31m▇▇▇▇▇\u001b[0m'
+    return m2
+
+def color_plr(m):
+    m2 = cria_mapa()
+    for i in range(len(m)):
+        for j in range(len(m[i])):
+            if m[i][j] == 'navio':
+                m2[i][j] = '\u001b[32m▇▇▇▇▇\u001b[0m' 
+            elif m[i][j] == 'water':
+                m2[i][j] = '\u001b[34m▇▇▇▇▇\u001b[0m'
+            elif m[i][j] == 'booom':
+                m2[i][j] = '\u001b[31m▇▇▇▇▇\u001b[0m'
+    return m2
 
 def posição_suporta(m,b,l,c,o):
     letras = {'a':1,'b':2,'c':3,'d':4,'e':5,'f':6,'g':7,'h':8,'i':9,'j':10}
