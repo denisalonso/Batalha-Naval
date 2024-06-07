@@ -107,3 +107,12 @@ def aloca_plr(m,b,l,c,o):
         else:
             mapa_plr[l][letra+i] = 'navio'
     return mapa_plr
+
+def vivo(m):
+    alive = False
+    for i in range(len(m)):
+        for h in range(len(m[i])):
+            if m[i][h] == 'navio':
+                alive = True
+                break
+    return alive
