@@ -220,5 +220,6 @@ def int_batalha(m,coords_atiradas,coords_validas,coords_suspeitas):
 
         novas_sus = intersection(novas_sus,coords_validas)
         novas_sus = [item for item in novas_sus if item not in coords_atiradas]
+        novas_sus = novas_sus + coords_suspeitas
 
     return [m,bala,estado,novas_sus]
