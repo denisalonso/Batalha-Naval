@@ -33,7 +33,7 @@ def main():
     frota_cpu = d1[pais_cpu]
     escolha = input('Escolha um país: [Brasil (1) / França (2) / Austrália (3) / Rússia (4) / Japão (5)] ')
     while escolha not in ['1','2','3','4','5']:
-        escolha = input('Por favor digite um número entre [1/2/3/4/5]: ')
+        escolha = input('Por favor, digite um número entre [1/2/3/4/5]: ')
     pais_plr = paises[int(escolha)-1]
     frota_plr = d1[pais_plr]
 
@@ -52,39 +52,60 @@ def main():
         map_cpu = aloca_cpu(map_cpu,blocos_cpu[i])
             
         # parte II - PLR
+    show_map(color_cpu(map_cpu),color_plr(map_plr))
     for navio in frota_plr:
-        print(f'Você está alocando {navio}, {frota_plr[navio]} unidades.')
+        print(f'Você está alocando um {navio} ({gab[navio]} blocos), {frota_plr[navio]} unidades.')
         for i in range(frota_plr[navio]):
             alocado = False
             while not alocado:
-                coord = input('Escolha a coordenada em que quer alocar: ')
-                while coord not in coords_validas:
-                    coord = input('Por favor digite uma coordenada válida: ')
+                coord = str(input('Escolha a coordenada em que quer alocar: '))
+                while coord.lower() not in coords_validas:
+                    coord = str(input('Por favor, digite uma coordenada válida: '))
                 ori = input('Escolha uma orientação: ')
                 while ori.lower() not in ['h','v']:
-                    ori = input('Por favor digite orientação válida [v/h]: ')
+                    ori = input('Por favor, digite orientação válida [v/h]: ')
                 l = int(coord[1:])-1
-                c = coord[0]
+                c = coord[0].lower()
                 if posição_suporta(map_plr,gab[navio],l,c,ori):
                     alocado = True
                     mapa_plr = aloca_plr(map_plr,gab[navio],l,c,ori)
                 else:
-                    print('Posição inválida! por favor escolha outra posição.')
+                    print('Posição inválida! Por favor, escolha outra posição.')
             show_map(color_cpu(map_cpu),color_plr(map_plr))
     
     # jogo começando
+    print('Jogo começando em ',end='')
+    for i in range(4):
+        t.sleep(1)
+        print(f'{3-i}',end=' ')
+    print('')
     while vivo(map_cpu) and vivo(map_plr):
+        print('CPU atacando!')
+        t.sleep(1)
+        rodada_cpu = atira_cpu(mapa_plr,jogadas_cpu,coords_validas)
+        jogadas_cpu.append(rodada_cpu[1])
+        mapa_plr = rodada_cpu[0]
+        print(f'CPU atacou {rodada_cpu[1].upper()}...',end='  ')
         t.sleep(2)
-        rodada = atira_cpu(mapa_plr,jogadas_cpu)
-        jogadas_cpu.append(rodada[1])
-        mapa_plr = rodada[0]
-        show_map(map_cpu,color_plr(map_plr))        
-        for i in range(len(map_cpu)):
-            print(map_cpu[i])
-        t.sleep(4)
-    
-
-
-
+        print(f'{rodada_cpu[2]}')
+        t.sleep(1)
+        show_map(color_cpu(map_cpu),color_plr(map_plr))  
+        t.sleep(1)
+        print('Sua vez!')
+        t.sleep(1)
+        coord = str(input('Digite a coordenada que quer atacar: '))
+        while coord.lower() not in coords_validas or coord.lower() in jogadas_plr:
+            if coord.lower() not in coords_validas:
+                coord = str(input('Por favor digite uma coordenada válida: '))
+            elif coord.lower() in jogadas_plr:
+                coord = str(input('Essa coordenada já foi atacada. Por favor, escolha outra: '))
+        rodada_plr = atira_plr(map_cpu,coord)
+        jogadas_plr.append(rodada_plr[1])
+        map_cpu = rodada_plr[0]
+        print(f'Você atacou {rodada_plr[1].upper()}...',end='  ')
+        t.sleep(2)
+        print(f'{rodada_plr[2]}')
+        t.sleep(1)
+        show_map(color_cpu(map_cpu),color_plr(map_plr))        
 
 main()
