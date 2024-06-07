@@ -155,3 +155,27 @@ def atira_plr(m,coord):
         m[l][col] = 'booom'
         estado = 'BOOM!'
     return[m,coord,estado]
+
+def intersection(lst1,lst2):
+    lst3 = [value for value in lst1 if value in lst2]
+    return lst3
+
+# def int_batalha(m,coords_atiradas,coords_validas,ultima_coord):
+#     letras = {'a':1,'b':2,'c':3,'d':4,'e':5,'f':6,'g':7,'h':8,'i':9,'j':10}
+#     grid = ['a2','a4','a6','a8','a10',
+#             'b1','b3','b5','b7','b9',
+#             'c2','c4','c6','c8','c10',
+#             'd1','d3','d5','d7','d9',
+#             'e2','e4','e6','e8','e10',
+#             'f1','f3','f5','f7','f9',
+#             'g2','g4','g6','g8','g10',
+#             'h1','h3','h5','h7','h9',
+#             'i2','i4','i6','i8','i10',
+#             'j1','j3','j5','j7','j9',]
+#     if ultima_coord == 0:
+#         bala = rd.choice(grid)
+#     elif coords_atiradas[ultima_coord] == 'water':
+#         bala = bala = rd.choice(grid)
+#     elif coords_atiradas[ultima_coord] == 'booom':
+#         l_ultima_coord = int(ultima_coord[1:])-1
+#         col_ultima_coord = letras[ultima_coord[0]]-1
