@@ -1,5 +1,6 @@
 from bn3_functions import *
 import random as rd
+import time as t
 
 def main():
     # estabelecendo dicionários e listas fundamentais
@@ -71,10 +72,18 @@ def main():
                     print('Posição inválida! por favor escolha outra posição.')
             show_map(color_cpu(map_cpu),color_plr(map_plr))
     
-
-
-
+    # jogo começando
+    while vivo(map_cpu) and vivo(map_plr):
+        t.sleep(2)
+        rodada = atira_cpu(mapa_plr,jogadas_cpu)
+        jogadas_cpu.append(rodada[1])
+        mapa_plr = rodada[0]
+        show_map(map_cpu,color_plr(map_plr))        
+        for i in range(len(map_cpu)):
+            print(map_cpu[i])
+        t.sleep(4)
     
+
 
 
 
