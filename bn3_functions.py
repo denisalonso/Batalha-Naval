@@ -175,7 +175,12 @@ def int_batalha(m,coords_atiradas,coords_validas,coords_suspeitas):
     novas_sus = []
     if len(coords_suspeitas) == 0:
         remainder = [item for item in grid if item not in coords_atiradas]
-        bala = rd.choice(remainder)
+        if len(remainder) != 0:
+            bala = rd.choice(remainder)
+        else:
+            anti_grid = [item for item in coords_validas if item not in grid]
+            possiveis = [item for item in anti_grid if item not in coords_atiradas]
+            bala = rd.choice(possiveis)
     else:
         bala = coords_suspeitas[-1]
         del coords_suspeitas[-1]
@@ -220,6 +225,125 @@ def int_batalha(m,coords_atiradas,coords_validas,coords_suspeitas):
 
         novas_sus = intersection(novas_sus,coords_validas)
         novas_sus = [item for item in novas_sus if item not in coords_atiradas]
-        novas_sus = novas_sus + coords_suspeitas
+        # novas_sus = novas_sus + coords_suspeitas
+        novas_sus = list(dict.fromkeys(novas_sus))
 
     return [m,bala,estado,novas_sus]
+
+def int_batalhav2(m,coords_atiradas,coords_validas,coords_suspeitas,tentativa):
+    letras = {'null1':0,'a':1,'b':2,'c':3,'d':4,'e':5,'f':6,'g':7,'h':8,'i':9,'j':10,'null2':11}
+    grid = ['a2','a4','a6','a8','a10',
+            'b1','b3','b5','b7','b9',
+            'c2','c4','c6','c8','c10',
+            'd1','d3','d5','d7','d9',
+            'e2','e4','e6','e8','e10',
+            'f1','f3','f5','f7','f9',
+            'g2','g4','g6','g8','g10',
+            'h1','h3','h5','h7','h9',
+            'i2','i4','i6','i8','i10',
+            'j1','j3','j5','j7','j9',]
+    novas_sus = []
+    hor = coords_suspeitas[0]
+    hor = [item for item in hor if item not in coords_atiradas]
+    ver = coords_suspeitas[1]
+    ver = [item for item in ver if item not in coords_atiradas]
+
+    if tentativa == 'both':
+        if len(ver) == 0 and len(hor) == 0:
+            remainder = [item for item in grid if item not in coords_atiradas]
+            if len(remainder) != 0:
+                bala = rd.choice(remainder)
+            nova_tentativa = 'both'
+        else:
+            if len(hor) == 0:
+                bala = ver[0]
+                del ver[0]
+                nova_tentativa = 'ver'
+            else:
+                bala = hor[0]
+                del hor[0]
+                nova_tentativa = 'hor'
+
+    elif tentativa == 'ver':
+        if len(ver) == 0 and len(hor) == 0:
+            remainder = [item for item in grid if item not in coords_atiradas]
+            if len(remainder) != 0:
+                bala = rd.choice(remainder)
+            nova_tentativa = 'both'
+        elif len(ver) == 0:
+            bala = hor[0]
+            del hor[0]
+            nova_tentativa = 'hor'
+        else:
+            bala = ver[0]
+            del ver[0]
+            nova_tentativa = 'ver'
+
+    else:
+        if len(ver) == 0 and len(hor) == 0:
+            remainder = [item for item in grid if item not in coords_atiradas]
+            if len(remainder) != 0:
+                bala = rd.choice(remainder)
+            nova_tentativa = 'both'
+        elif len(hor) == 0:
+            bala = ver[0]
+            del ver[0]
+            nova_tentativa = 'ver'
+        else:
+            bala = hor[0]
+            del hor[0]
+            nova_tentativa = 'hor'
+    
+    l = int(bala[1:])-1
+    col = letras[bala[0]]-1
+    if m[l][col] == '     ':
+        m[l][col] = 'water'
+        estado = 'Água'
+        novas_sus = coords_suspeitas
+
+    elif m[l][col] == 'navio':
+        m[l][col] = 'booom'
+        estado = 'BOOM!'
+        if tentativa == 'hor':
+            ver = []
+        elif tentativa == 'ver':
+            hor = []
+        l_sup = l+1-1
+        l_mid = l+1
+        l_inf = l+1+1
+        col_lft = col+1-1
+        col_mid = col+1
+        col_rgt = col+1+1
+
+        for key in letras:
+            if letras[key] == col_lft:
+                col_lft = key
+                break
+        for key in letras:
+            if letras[key] == col_mid:
+                col_mid = key
+                break
+        for key in letras:
+            if letras[key] == col_rgt:
+                col_rgt = key
+                break
+        coord1 = str(col_mid) + str(l_sup)
+        coord2 = str(col_rgt) + str(l_mid)
+        coord3 = str(col_mid) + str(l_inf)
+        coord4 = str(col_lft) + str(l_mid)
+        
+        if tentativa in ['hor','both']:
+            hor.append(coord2)
+            hor.append(coord4)
+            hor = intersection(hor,coords_validas)
+            hor = list(dict.fromkeys(hor))
+            hor = [item for item in hor if item not in coords_atiradas]   
+        if tentativa in ['ver','both']:
+            ver.append(coord1)
+            ver.append(coord3)
+            ver = intersection(ver,coords_validas)
+            ver = list(dict.fromkeys(ver))
+            ver = [item for item in ver if item not in coords_atiradas]
+        novas_sus = [hor,ver]
+        
+    return [m,bala,estado,novas_sus,nova_tentativa]
