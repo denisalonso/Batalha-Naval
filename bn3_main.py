@@ -23,18 +23,22 @@ def main():
                       'j1','j2','j3','j4','j5','j6','j7','j8','j9','j10',]
     jogadas_plr = []
     jogadas_cpu = []
-    # jogadas_cpu_estado = {}
 
     # criação de mapas
     map_plr = cria_mapa()
     map_cpu = cria_mapa()
 
-    # seleção de países
+    # seleção de dificuldade
+    dif = str(input('Escolha a dificuldade: [Fácil (1) / Médio (2) / Difícil (3)] '))
+    while dif not in ['1','2','3']:
+        dif = str(input('Por favor, digite um número entre [1/2/3]: '))
+
+    # seleção de países e definição de frotas
     pais_cpu = paises[rd.randint(0,4)]
     frota_cpu = d1[pais_cpu]
-    escolha = input('Escolha um país: [Brasil (1) / França (2) / Austrália (3) / Rússia (4) / Japão (5)] ')
+    escolha = str(input('Escolha um país: [Brasil (1) / França (2) / Austrália (3) / Rússia (4) / Japão (5)] '))
     while escolha not in ['1','2','3','4','5']:
-        escolha = input('Por favor, digite um número entre [1/2/3/4/5]: ')
+        escolha = str(input('Por favor, digite um número entre [1/2/3/4/5]: '))
     pais_plr = paises[int(escolha)-1]
     frota_plr = d1[pais_plr]
 
@@ -80,50 +84,102 @@ def main():
         t.sleep(1)
         print(f'{3-i}',end=' ')
     print('')
-    # while vivo(map_cpu) and vivo(map_plr):
-    #     print('CPU atacando!')
-    #     t.sleep(1)
-    #     rodada_cpu = atira_cpu(mapa_plr,jogadas_cpu,coords_validas)
-    #     jogadas_cpu.append(rodada_cpu[1])
-    #     mapa_plr = rodada_cpu[0]
-    #     print(f'CPU atacou {rodada_cpu[1].upper()}...',end='  ')
-    #     t.sleep(2)
-    #     print(f'{rodada_cpu[2]}')
-    #     t.sleep(1)
-    #     show_map(color_cpu(map_cpu),color_plr(map_plr))  
-    #     t.sleep(1)
-    #     print('Sua vez!')
-    #     t.sleep(1)
-    #     coord = str(input('Digite a coordenada que quer atacar: '))
-    #     while coord.lower() not in coords_validas or coord.lower() in jogadas_plr:
-    #         if coord.lower() not in coords_validas:
-    #             coord = str(input('Por favor digite uma coordenada válida: '))
-    #         elif coord.lower() in jogadas_plr:
-    #             coord = str(input('Essa coordenada já foi atacada. Por favor, escolha outra: '))
-    #     rodada_plr = atira_plr(map_cpu,coord)
-    #     jogadas_plr.append(rodada_plr[1])
-    #     map_cpu = rodada_plr[0]
-    #     print(f'Você atacou {rodada_plr[1].upper()}...',end='  ')
-    #     t.sleep(2)
-    #     print(f'{rodada_plr[2]}')
-    #     t.sleep(1)
-    #     show_map(color_cpu(map_cpu),color_plr(map_plr))
+    if dif in [1]:
+        while vivo(map_cpu) and vivo(map_plr):
+            print('CPU atacando!')
+            t.sleep(1)
+            rodada_cpu = atira_cpu(mapa_plr,jogadas_cpu,coords_validas)
+            jogadas_cpu.append(rodada_cpu[1])
+            mapa_plr = rodada_cpu[0]
+            print(f'CPU atacou {rodada_cpu[1].upper()}...',end='  ')
+            t.sleep(2)
+            print(f'{rodada_cpu[2]}')
+            t.sleep(1)
+            show_map(color_cpu(map_cpu),color_plr(map_plr))  
+            t.sleep(1)
+            print('Sua vez!')
+            t.sleep(1)
+            coord = str(input('Digite a coordenada que quer atacar: '))
+            while coord.lower() not in coords_validas or coord.lower() in jogadas_plr:
+                if coord.lower() not in coords_validas:
+                    coord = str(input('Por favor digite uma coordenada válida: '))
+                elif coord.lower() in jogadas_plr:
+                    coord = str(input('Essa coordenada já foi atacada. Por favor, escolha outra: '))
+            rodada_plr = atira_plr(map_cpu,coord)
+            jogadas_plr.append(rodada_plr[1])
+            map_cpu = rodada_plr[0]
+            print(f'Você atacou {rodada_plr[1].upper()}...',end='  ')
+            t.sleep(2)
+            print(f'{rodada_plr[2]}')
+            t.sleep(1)
+            show_map(color_cpu(map_cpu),color_plr(map_plr))
     
-    coords_suspeitas = []
-    while vivo(map_cpu) and vivo(map_plr):
-        rodada_cpu = int_batalha(map_plr,jogadas_cpu,coords_validas,coords_suspeitas)
+    elif dif in [2]:
+        coords_suspeitas = []
+        tentativa = 'both'
+        while vivo(map_cpu) and vivo(map_plr):
+            print('CPU atacando!')
+            t.sleep(1)
+            rodada_cpu = int_batalha(map_plr,jogadas_cpu,coords_validas,coords_suspeitas)
+            jogadas_cpu.append(rodada_cpu[1])
+            mapa_plr = rodada_cpu[0]
+            coords_suspeitas = rodada_cpu[3]
+            print(f'CPU atacou {rodada_cpu[1].upper()}...',end='  ')
+            t.sleep(2)
+            print(f'{rodada_cpu[2]}')
+            t.sleep(1)
+            show_map(color_cpu(map_cpu),color_plr(map_plr))  
+            t.sleep(1)
+            print('Sua vez!')
+            t.sleep(1)
+            coord = str(input('Digite a coordenada que quer atacar: '))
+            while coord.lower() not in coords_validas or coord.lower() in jogadas_plr:
+                if coord.lower() not in coords_validas:
+                    coord = str(input('Por favor digite uma coordenada válida: '))
+                elif coord.lower() in jogadas_plr:
+                    coord = str(input('Essa coordenada já foi atacada. Por favor, escolha outra: '))
+            rodada_plr = atira_plr(map_cpu,coord)
+            jogadas_plr.append(rodada_plr[1])
+            map_cpu = rodada_plr[0]
+            print(f'Você atacou {rodada_plr[1].upper()}...',end='  ')
+            t.sleep(2)
+            print(f'{rodada_plr[2]}')
+            t.sleep(1)
+            show_map(color_cpu(map_cpu),color_plr(map_plr))
 
-        map_plr = rodada_cpu[0]
-        jogadas_cpu.append(rodada_cpu[1])
-        estado = rodada_cpu[2]
-        coords_suspeitas = rodada_cpu[3]
-
-        show_map(color_cpu(map_cpu),color_plr(map_plr))
-        print(jogadas_cpu)
-        print(estado)
-        print(coords_suspeitas)
-        t.sleep(5)
-       
-        
+    elif dif in [3]:
+        coords_suspeitas = [[],[]]
+        tentativa = 'both'
+        while vivo(map_cpu) and vivo(map_plr):
+            print('CPU atacando!')
+            t.sleep(1)
+            rodada_cpu = int_batalhav2(map_plr,jogadas_cpu,coords_validas,coords_suspeitas,tentativa)
+            jogadas_cpu.append(rodada_cpu[1])
+            mapa_plr = rodada_cpu[0]
+            coords_suspeitas = rodada_cpu[3]
+            tentativa = rodada_cpu[4]
+            print(f'CPU atacou {rodada_cpu[1].upper()}...',end='  ')
+            t.sleep(2)
+            print(f'{rodada_cpu[2]}')
+            t.sleep(1)
+            show_map(color_cpu(map_cpu),color_plr(map_plr))  
+            t.sleep(1)
+            print('Sua vez!')
+            t.sleep(1)
+            coord = str(input('Digite a coordenada que quer atacar: '))
+            while coord.lower() not in coords_validas or coord.lower() in jogadas_plr:
+                if coord.lower() not in coords_validas:
+                    coord = str(input('Por favor digite uma coordenada válida: '))
+                elif coord.lower() in jogadas_plr:
+                    coord = str(input('Essa coordenada já foi atacada. Por favor, escolha outra: '))
+            rodada_plr = atira_plr(map_cpu,coord)
+            jogadas_plr.append(rodada_plr[1])
+            map_cpu = rodada_plr[0]
+            print(f'Você atacou {rodada_plr[1].upper()}...',end='  ')
+            t.sleep(2)
+            print(f'{rodada_plr[2]}')
+            t.sleep(1)
+            show_map(color_cpu(map_cpu),color_plr(map_plr))   
+    
 
 main()
