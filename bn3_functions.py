@@ -348,3 +348,24 @@ def int_batalhav2(m,coords_atiradas,coords_validas,coords_suspeitas,tentativa):
         novas_sus = [hor,ver]
         
     return [m,bala,estado,novas_sus,nova_tentativa]
+
+def int_batalhav3(m,coords_atiradas,coords_validas,coords_suspeitas,next,ori):
+    letras = {'null1':0,'a':1,'b':2,'c':3,'d':4,'e':5,'f':6,'g':7,'h':8,'i':9,'j':10,'null2':11}
+    grid = ['a2','a4','a6','a8','a10',
+            'b1','b3','b5','b7','b9',
+            'c2','c4','c6','c8','c10',
+            'd1','d3','d5','d7','d9',
+            'e2','e4','e6','e8','e10',
+            'f1','f3','f5','f7','f9',
+            'g2','g4','g6','g8','g10',
+            'h1','h3','h5','h7','h9',
+            'i2','i4','i6','i8','i10',
+            'j1','j3','j5','j7','j9',]
+    verticals = coords_suspeitas[0]
+    horizontals = coords_suspeitas[1]
+    if len(next) == 0 and ori in ['both']:
+        remainder = [item for item in grid if item not in coords_atiradas]
+        bala = rd.choice(remainder)
+
+    else:
+        if len(next) 
